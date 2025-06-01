@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
   github-runner:
+    user: root
     build:
       context: .
       dockerfile: Dockerfile

@@ -38,6 +38,8 @@ RUN curl -s https://api.github.com/repos/actions/runner/releases/latest \
   tar xzf actions-runner-linux-x64-*.tar.gz && \
   rm actions-runner-linux-x64-*.tar.gz
 
+# Fix work directory permissions for non-root runner
+RUN mkdir -p /home/runner/_work && chown -R runner:runner /home/runner
 # Copy entrypoint script
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh && chown -R runner:runner /home/runner
