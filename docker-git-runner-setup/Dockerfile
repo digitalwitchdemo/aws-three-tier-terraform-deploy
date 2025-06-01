@@ -23,7 +23,13 @@ RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/sh
     > /etc/apt/sources.list.d/hashicorp.list && \
     apt-get update && apt-get install -y terraform
 
-# Create non-root user for GitHub runner
+
+# Install Node.js (LTS version)
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs
+
+
+# Create non-root user for GitHub runner.
 RUN useradd -m -s /bin/bash runner && \
     usermod -aG docker runner && \
     echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
