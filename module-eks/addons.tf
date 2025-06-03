@@ -51,27 +51,47 @@ data "aws_lb" "nginx_ingress" {
 }
 
 
-# resource "helm_release" "argocd" {
-#     name       = "argocd"
-#     repository = "https://argoproj.github.io/argo-helm"
-#     chart      = "argo-cd"
-#     version    = "5.51.6"
-#     namespace  = "argocd"
-#     create_namespace = true
-# }
+resource "helm_release" "argocd" {
+    name             = "argocd"
+    repository       = "https://argoproj.github.io/argo-helm"
+    chart            = "argo-cd"
+    version          = "5.51.6"
+    namespace        = "argocd"
+    create_namespace = true
+    set {
+        name  = "server.service.type"
+        value = "ClusterIP"
+    }
+    set {
+        name  = "server.ingress.enabled"
+        value = "true"
+    }
+    set {
+        name  = "server.ingress.ingressClassName"
+        value = "nginx"
+    }
+    set {
+        name  = "server.ingress.hosts[0]"
+        value = "argocd.${var.domain-name}"
+    }
+    set {
+        name  = "server.ingress.paths[0]"
+        value = "/"
+    }
+}
 
-# resource "helm_release" "cert_manager" {
-#     name       = "cert-manager"
-#     repository = "https://charts.jetstack.io"
-#     chart      = "cert-manager"
-#     version    = "1.14.4"
-#     namespace  = "cert-manager"
-#     create_namespace = true
-#     set {
-#         name  = "installCRDs"
-#         value = "true"
-#     }
-# }
+resource "helm_release" "cert_manager" {
+    name       = "cert-manager"
+    repository = "https://charts.jetstack.io"
+    chart      = "cert-manager"
+    version    = "1.14.4"
+    namespace  = "cert-manager"
+    create_namespace = true
+    set {
+        name  = "installCRDs"
+        value = "true"
+    }
+}
 
 
 # output "nginx_ingress_load_balancer_hostname" {

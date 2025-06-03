@@ -92,3 +92,5 @@ variable "cluster_name" {
 variable "repository_name" {
   
 }
+
+variable "domain-name" {}
