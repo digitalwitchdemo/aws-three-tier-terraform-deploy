@@ -14,6 +14,12 @@ jobs:
       - name: Checkout repository.
         uses: actions/checkout@v2
 
+      - name: Setup GitHub OIDC
+        run: | 
+           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+           unzip awscliv2.zip
+           sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
+
       - name: Configure AWS credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
