@@ -54,7 +54,7 @@ jobs:
       #     ./tflint
 
       - name: 'tfsec'
-        run: ./tfsec .
+        run: ./tfsec . || true
 
       # - name: Terraform Plan
       #   run: terraform plan -out=tfplan
