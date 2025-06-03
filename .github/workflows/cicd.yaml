@@ -29,17 +29,15 @@ jobs:
 
       - name: 'Install TFLint'
         run: |
-          curl -sLo tflint.zip https://github.com/terraform-linters/tflint/releases/download/v0.58.0/tflint_linux_arm64.zip
-                               
-          sudo unzip tflint.zip -d /usr/local/bin/
-          sudo tflint --version
+          curl -sLo tflint.zip https://github.com/terraform-linters/tflint/releases/download/v0.58.0/tflint_linux_arm64.zip                    
+          unzip tflint.zip 
+          tflint --version
 
       - name: 'Install tfsec'
         run: |
           curl -sLo tfsec https://github.com/aquasecurity/tfsec/releases/download/v1.28.11/tfsec-linux-amd64
-          sudo chmod +x tfsec
-          sudo mv tfsec /usr/local/bin/
-          sudo tfsec --version
+          chmod +x tfsec
+          tfsec --version
 
       - name: 'Terraform Init'
         run: terraform init
