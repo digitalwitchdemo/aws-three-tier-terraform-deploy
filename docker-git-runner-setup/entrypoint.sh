@@ -23,5 +23,5 @@ echo "Registering runner: $RUNNER_NAME"
   --work _work \
   --replace
 
-echo "Starting runner..."
+echo "Starting runner...."
 exec ./run.sh
