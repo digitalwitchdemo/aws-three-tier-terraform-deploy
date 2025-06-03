@@ -64,7 +64,7 @@ jobs:
         run: ./tfsec . || true
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: terraform plan 
 
     #   - name: Terraform Apply
     #     run: terraform destroy -auto-approve tfplan
