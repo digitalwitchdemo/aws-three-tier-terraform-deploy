@@ -27,11 +27,11 @@ jobs:
             cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
 
-      - name: 'Install TFLint'
-        run: |
-          curl -sLo tflint.zip https://github.com/terraform-linters/tflint/releases/download/v0.58.0/tflint_linux_arm64.zip                    
-          unzip tflint.zip 
-          ./tflint --version
+      # - name: 'Install TFLint'
+      #   run: |
+      #     curl -sLo tflint.zip https://github.com/terraform-linters/tflint/releases/download/v0.58.0/tflint_linux_arm64.zip                    
+      #     unzip tflint.zip 
+      #     ./tflint --version
 
       - name: 'Install tfsec'
         run: |
