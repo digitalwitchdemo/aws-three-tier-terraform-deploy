@@ -51,69 +51,69 @@ data "aws_lb" "nginx_ingress" {
 }
 
 
-resource "helm_release" "argocd" {
-    name             = "argocd"
-    repository       = "https://argoproj.github.io/argo-helm"
-    chart            = "argo-cd"
-    version          = "5.51.6"
-    namespace        = "argocd"
-    create_namespace = true
-    set {
-        name  = "server.service.type"
-        value = "ClusterIP"
-    }
-    set {
-        name  = "server.ingress.enabled"
-        value = "true"
-    }
-    set {
-        name  = "server.ingress.ingressClassName"
-        value = "nginx"
-    }
-    set {
-        name  = "server.ingress.hosts[0]"
-        value = "argocd.${var.domain-name}"
-    }
-    set {
-        name  = "server.ingress.paths[0]"
-        value = "/"
-    }
-    set {
-    name  = "server.ingress.paths[0].pathType"
-    value = "Prefix"
-  }
+# resource "helm_release" "argocd" {
+#     name             = "argocd"
+#     repository       = "https://argoproj.github.io/argo-helm"
+#     chart            = "argo-cd"
+#     version          = "5.51.6"
+#     namespace        = "argocd"
+#     create_namespace = true
+#     set {
+#         name  = "server.service.type"
+#         value = "ClusterIP"
+#     }
+#     set {
+#         name  = "server.ingress.enabled"
+#         value = "true"
+#     }
+#     set {
+#         name  = "server.ingress.ingressClassName"
+#         value = "nginx"
+#     }
+#     set {
+#         name  = "server.ingress.hosts[0]"
+#         value = "argocd.${var.domain-name}"
+#     }
+#     set {
+#         name  = "server.ingress.paths[0]"
+#         value = "/"
+#     }
+#     set {
+#     name  = "server.ingress.paths[0].pathType"
+#     value = "Prefix"
+#   }
 
-  set {
-    name  = "server.ingress.tls[0].hosts[0]"
-    value = "argocd.${var.domain-name}"
-  }
+#   set {
+#     name  = "server.ingress.tls[0].hosts[0]"
+#     value = "argocd.${var.domain-name}"
+#   }
 
-  set {
-    name  = "server.ingress.tls[0].secretName"
-    value = "argocd-tls"
-  }
+#   set {
+#     name  = "server.ingress.tls[0].secretName"
+#     value = "argocd-tls"
+#   }
 
-  set {
-    name  = "server.extraArgs[0]"
-    value = "--insecure"
-  }
-}
-
-resource "helm_release" "cert_manager" {
-    name       = "cert-manager"
-    repository = "https://charts.jetstack.io"
-    chart      = "cert-manager"
-    version    = "1.14.4"
-    namespace  = "cert-manager"
-    create_namespace = true
-    set {
-        name  = "installCRDs"
-        value = "true"
-    }
-}
-
-
-# output "nginx_ingress_load_balancer_hostname" {
-#     value       = data.kubernetes_service.nginx_ingress_lb.status[0].load_balancer[0].ingress[0].hostname
-#     description = "The DNS hostname of the NGINX ingress LoadBalancer service"
+#   set {
+#     name  = "server.extraArgs[0]"
+#     value = "--insecure"
+#   }
 # }
+
+# resource "helm_release" "cert_manager" {
+#     name       = "cert-manager"
+#     repository = "https://charts.jetstack.io"
+#     chart      = "cert-manager"
+#     version    = "1.14.4"
+#     namespace  = "cert-manager"
+#     create_namespace = true
+#     set {
+#         name  = "installCRDs"
+#         value = "true"
+#     }
+# }
+
+
+# # output "nginx_ingress_load_balancer_hostname" {
+# #     value       = data.kubernetes_service.nginx_ingress_lb.status[0].load_balancer[0].ingress[0].hostname
+# #     description = "The DNS hostname of the NGINX ingress LoadBalancer service"
+# # }
