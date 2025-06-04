@@ -17,25 +17,27 @@ resource "helm_release" "nginx_ingress" {
     namespace  = "ingress-nginx"
     create_namespace = true
 
-    set {
-        name  = "controller.service.type"
-        value = "LoadBalancer"
-    }
+    values = [file("${path.module}/nginx-ingress-values.yaml")]
+
+    # set {
+    #     name  = "controller.service.type"
+    #     value = "LoadBalancer"
+    # }
 
     # set {
     #     name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-internal"
     #     value = "0.0.0.0/0"
     # }
 
-    set {
-        name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-cross-zone-load-balancing-enabled"
-        value = "true"
-    }
+    # set {
+    #     name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-cross-zone-load-balancing-enabled"
+    #     value = "true"
+    # }
 
-    set {
-        name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type"
-        value = "nlb"
-    }
+    # set {
+    #     name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type"
+    #     value = "nlb"
+    # }
 
     timeout = 600
 
