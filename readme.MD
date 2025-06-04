@@ -26,7 +26,7 @@ terraform-eks-db/
 ├── output.tf                  # Outputs of the infrastructure
 ├── readme.MD                  # You are here
 ├── terraform.tfvars           # Variable values
-└── variable.tf                # Variable definitions
+└── variable.tf                # Variable definitions.
 ```
 
 ## This is the architecture for the infrastruture deployment
