@@ -78,6 +78,25 @@ resource "helm_release" "argocd" {
         name  = "server.ingress.paths[0]"
         value = "/"
     }
+    set {
+    name  = "server.ingress.paths[0].pathType"
+    value = "Prefix"
+  }
+
+  set {
+    name  = "server.ingress.tls[0].hosts[0]"
+    value = "argocd.${var.domain-name}"
+  }
+
+  set {
+    name  = "server.ingress.tls[0].secretName"
+    value = "argocd-tls"
+  }
+
+  set {
+    name  = "server.extraArgs[0]"
+    value = "--insecure"
+  }
 }
 
 resource "helm_release" "cert_manager" {
