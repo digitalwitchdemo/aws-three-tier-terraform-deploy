@@ -55,7 +55,7 @@ jobs:
         run: terraform validate
 
 
-      - name: 'tfsec Security Scan'
+      - name: 'tfsec Security Scan.'
         run: ./tfsec . || true
 
       - name: Terraform Plan
