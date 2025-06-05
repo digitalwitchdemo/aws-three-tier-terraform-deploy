@@ -9,7 +9,7 @@ server:
       kubernetes.io/ingress.class: "external-nginx"
       alb.ingress.kubernetes.io/scheme: "internet-facing"
     paths:
-      - path: /
+      - path: "/"
         pathType: Prefix
     # tls:
     #   - hosts:
