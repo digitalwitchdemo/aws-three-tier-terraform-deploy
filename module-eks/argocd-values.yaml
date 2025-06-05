@@ -13,12 +13,10 @@ server:
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 
     hosts:
-      - argocd.cloudwitches.online
-
-    paths:
-      - /
-
-    pathType: Prefix
+      - host: argocd.cloudwitches.online
+        paths:
+          - path: /
+            pathType: Prefix
 
     tls:
       - hosts:
@@ -27,6 +25,7 @@ server:
 
   extraArgs:
     - --insecure
+
 
 # password generation on argocd 
 # kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
