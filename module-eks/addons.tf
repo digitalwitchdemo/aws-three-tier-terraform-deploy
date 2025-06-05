@@ -18,13 +18,6 @@ resource "helm_release" "nginx_ingress" {
     create_namespace = true
 
     values = [file("${path.module}/nginx-ingress-values.yaml")]
-    # set {
-    #     name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-cert"
-    #     value = "module.acm_backend.acm_certificate_arn"
-    #     type = "string"
-    # }
-
-
     depends_on = [ aws_eks_node_group.eks_node_group ]
 }
 
@@ -47,7 +40,6 @@ resource "helm_release" "cert_manager" {
         name  = "installCRDs"
         value = "true"
     }
-
     depends_on = [ helm_release.nginx_ingress ]
 }
 
@@ -60,13 +52,5 @@ resource "helm_release" "argocd" {
     namespace        = "argocd"
     create_namespace = true
     values = [file("${path.module}/argocd-values.yaml")]
-#     set {
-#         name  = "server.ingress.paths[0]"
-#         value = "/"
-#     }
-#     set {
-#     name  = "server.ingress.paths[0].pathType"
-#     value = "Prefix"
-#   }
     depends_on = [ helm_release.nginx_ingress, helm_release.cert_manager]
 }
