@@ -84,50 +84,50 @@ resource "helm_release" "argocd" {
     name             = "argocd"
     repository       = "https://argoproj.github.io/argo-helm"
     chart            = "argo-cd"
-    version          = "8.0.14"
+    version          = "5.51.6"
     namespace        = "argocd"
     create_namespace = true
-    # values = [file("${path.module}/argocd-values.yaml")]
+    values = [file("${path.module}/argocd-values.yaml")]
     depends_on = [ helm_release.nginx_ingress, helm_release.cert_manager,kubernetes_manifest.cluster_issuer]
 }
 
-# resource "kubernetes_ingress_v1" "argocd_ingress" {
-#     metadata {
-#         name      = "argocd-ingress"
-#         namespace = "argocd"
-#         annotations = {
-#             "kubernetes.io/ingress.class"                    = "external-nginx"
-#             "cert-manager.io/cluster-issuer"                 = "http-01-production"
-#             "nginx.ingress.kubernetes.io/rewrite-target"     = "/"
-#             "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
-#         }
-#     }
-#     spec {
-#         ingress_class_name = "external-nginx"
+resource "kubernetes_ingress_v1" "argocd_ingress" {
+    metadata {
+        name      = "argocd-ingress"
+        namespace = "argocd"
+        annotations = {
+            "kubernetes.io/ingress.class"                    = "external-nginx"
+            "cert-manager.io/cluster-issuer"                 = "http-01-production"
+            "nginx.ingress.kubernetes.io/rewrite-target"     = "/"
+            "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
+        }
+    }
+    spec {
+        ingress_class_name = "external-nginx"
 
-#         tls {
-#             hosts       = ["argocd.cloudwitches.online"]
-#             secret_name = "argocd-cloudwitches-online"
-#         }
+        tls {
+            hosts       = ["argocd.cloudwitches.online"]
+            secret_name = "argocd-cloudwitches-online"
+        }
 
-#         rule {
-#             host = "argocd.cloudwitches.online"
-#             http {
-#                 path {
-#                     path     = "/"
-#                     path_type = "Prefix"
-#                     backend {
-#                         service {
-#                             name = "argocd-server"
-#                             port {
-#                                 number = 80
-#                             }
-#                         }
-#                     }
-#                 }
-#             }
-#         }
-#     }
+        rule {
+            host = "argocd.cloudwitches.online"
+            http {
+                path {
+                    path     = "/"
+                    path_type = "Prefix"
+                    backend {
+                        service {
+                            name = "argocd-server"
+                            port {
+                                number = 80
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-#     depends_on = [helm_release.argocd]
-# }
+    depends_on = [helm_release.argocd]
+}
