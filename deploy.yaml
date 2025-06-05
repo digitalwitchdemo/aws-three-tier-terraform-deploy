@@ -39,14 +39,14 @@ metadata:
   name: nginx-ingress
   annotations:
     kubernetes.io/ingress.class: "external-nginx"
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: http-01-production
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: external-nginx
   tls:
   - hosts:
     - app.cloudwitches.online
-    secretName: app-tls-secret
+    secretName: app-cloudwitches-online
   rules:
   - host: app.cloudwitches.online
     http:
@@ -58,16 +58,17 @@ spec:
             name: nginx-service
             port:
               number: 80
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: app-certificate
-spec:
-  secretName: app-tls-secret
-  issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
-  commonName: app.cloudwitches.online
-  dnsNames:
-  - app.cloudwitches.online
+
+# ---
+# apiVersion: cert-manager.io/v1
+# kind: Certificate
+# metadata:
+#   name: app-certificate
+# spec:
+#   secretName: app-tls-secret
+#   issuerRef:
+#     name: letsencrypt-prod
+#     kind: ClusterIssuer
+#   commonName: app.cloudwitches.online
+#   dnsNames:
+#   - app.cloudwitches.online
