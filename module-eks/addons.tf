@@ -54,3 +54,34 @@ resource "helm_release" "argocd" {
     values = [file("${path.module}/argocd-values.yaml")]
     depends_on = [ helm_release.nginx_ingress, helm_release.cert_manager]
 }
+
+
+resource "kubernetes_manifest" "cluster_issuer" {
+    manifest = {
+        apiVersion = "cert-manager.io/v1"
+        kind       = "ClusterIssuer"
+        metadata = {
+            name = "http-01-production"
+        }
+        spec = {
+            acme = {
+                server = "https://acme-v02.api.letsencrypt.org/directory"
+                email  = "support@digitalwitchng.online"
+                privateKeySecretRef = {
+                    name = "letsencrypt-prod-cluster-issuer"
+                }
+                solvers = [
+                    {
+                        http01 = {
+                            ingress = {
+                                ingressClassName = "external-nginx"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+
+    depends_on = [helm_release.cert_manager]
+}
