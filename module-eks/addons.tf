@@ -18,29 +18,11 @@ resource "helm_release" "nginx_ingress" {
     create_namespace = true
 
     values = [file("${path.module}/nginx-ingress-values.yaml")]
-
     # set {
-    #     name  = "controller.service.type"
-    #     value = "LoadBalancer"
+    #     name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-cert"
+    #     value = "module.acm_backend.acm_certificate_arn"
+    #     type = "string"
     # }
-
-    # set {
-    #     name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-internal"
-    #     value = "0.0.0.0/0"
-    # }
-
-    # set {
-    #     name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-cross-zone-load-balancing-enabled"
-    #     value = "true"
-    # }
-
-    # set {
-    #     name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type"
-    #     value = "nlb"
-    # }
-
-    timeout = 600
-
     depends_on = [ aws_eks_node_group.eks_node_group ]
 }
 
@@ -52,54 +34,23 @@ data "aws_lb" "nginx_ingress" {
   depends_on = [helm_release.nginx_ingress]
 }
 
-
-# resource "helm_release" "argocd" {
-#     name             = "argocd"
-#     repository       = "https://argoproj.github.io/argo-helm"
-#     chart            = "argo-cd"
-#     version          = "5.51.6"
-#     namespace        = "argocd"
-#     create_namespace = true
-#     set {
-#         name  = "server.service.type"
-#         value = "ClusterIP"
-#     }
-#     set {
-#         name  = "server.ingress.enabled"
-#         value = "true"
-#     }
-#     set {
-#         name  = "server.ingress.ingressClassName"
-#         value = "nginx"
-#     }
-#     set {
-#         name  = "server.ingress.hosts[0]"
-#         value = "argocd.${var.domain-name}"
-#     }
-#     set {
-#         name  = "server.ingress.paths[0]"
-#         value = "/"
-#     }
-#     set {
-#     name  = "server.ingress.paths[0].pathType"
-#     value = "Prefix"
-#   }
-
+resource "helm_release" "argocd" {
+    name             = "argocd"
+    repository       = "https://argoproj.github.io/argo-helm"
+    chart            = "argo-cd"
+    version          = "5.51.6"
+    namespace        = "argocd"
+    create_namespace = true
+    values = [file("${path.module}/argocd-values.yaml")]
+    set {
+        name  = "server.ingress.hosts[0]"
+        value = "argocd.${var.domain-name}"
+    }
+}
 #   set {
 #     name  = "server.ingress.tls[0].hosts[0]"
 #     value = "argocd.${var.domain-name}"
 #   }
-
-#   set {
-#     name  = "server.ingress.tls[0].secretName"
-#     value = "argocd-tls"
-#   }
-
-#   set {
-#     name  = "server.extraArgs[0]"
-#     value = "--insecure"
-#   }
-# }
 
 # resource "helm_release" "cert_manager" {
 #     name       = "cert-manager"
