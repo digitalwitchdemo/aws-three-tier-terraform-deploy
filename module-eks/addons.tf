@@ -90,13 +90,15 @@ resource "helm_release" "cert_manager" {
     name       = "cert-manager"
     repository = "https://charts.jetstack.io"
     chart      = "cert-manager"
-    version    = "1.14.4"
+    version    = "1.14.5"
     namespace  = "cert-manager"
     create_namespace = true
     set {
         name  = "installCRDs"
         value = "true"
     }
+
+    depends_on = [ helm_release.nginx_ingress ]
 }
 
 

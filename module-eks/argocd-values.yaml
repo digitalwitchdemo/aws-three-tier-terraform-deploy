@@ -6,13 +6,15 @@ server:
       kubernetes.io/ingress.class: "external-nginx"
       alb.ingress.kubernetes.io/scheme: "internet-facing"
       cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      ingress.kubernetes.io/force-ssl-redirect: "true"
+
 
     hosts:
       - argocd.cloudwitches.online
 
-    # paths:
-    #   - path: /
-    #     pathType: Prefix
+#     # paths:
+#     #   - path: /
+#     #     pathType: Prefix
 
     tls:
       - hosts:
