@@ -49,19 +49,6 @@ resource "helm_release" "cert_manager" {
     depends_on = [ helm_release.nginx_ingress ]
 }
 
-
-resource "helm_release" "argocd" {
-    name             = "argocd"
-    repository       = "https://argoproj.github.io/argo-helm"
-    chart            = "argo-cd"
-    version          = "5.51.6"
-    namespace        = "argocd"
-    create_namespace = true
-    values = [file("${path.module}/argocd-values.yaml")]
-    depends_on = [ helm_release.nginx_ingress, helm_release.cert_manager]
-}
-
-
 resource "kubernetes_manifest" "cluster_issuer" {
     manifest = {
         apiVersion = "cert-manager.io/v1"
@@ -90,4 +77,16 @@ resource "kubernetes_manifest" "cluster_issuer" {
     }
 
     depends_on = [helm_release.cert_manager]
+}
+
+
+resource "helm_release" "argocd" {
+    name             = "argocd"
+    repository       = "https://argoproj.github.io/argo-helm"
+    chart            = "argo-cd"
+    version          = "8.0.14"
+    namespace        = "argocd"
+    create_namespace = true
+    values = [file("${path.module}/argocd-values.yaml")]
+    depends_on = [ helm_release.nginx_ingress, helm_release.cert_manager,kubernetes_manifest.cluster_issuer]
 }
