@@ -45,16 +45,17 @@ spec:
   ingressClassName: external-nginx
   tls:
   - hosts:
-    - app.cloudwitches.online
-    secretName: app-cloudwitches-online
+    - argocd.cloudwitches.online
+    secretName: argocd-cloudwitches-online
   rules:
-  - host: app.cloudwitches.online
+  - host: argocd.cloudwitches.online
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: nginx-service
+            name: argocd-server
             port:
               number: 80
+
