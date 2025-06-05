@@ -8,9 +8,9 @@ server:
     annotations:
       kubernetes.io/ingress.class: "external-nginx"
       alb.ingress.kubernetes.io/scheme: "internet-facing"
-    paths:
-      - path: "/"
-        pathType: Prefix
+    # paths:
+    #   - path: "/"
+    #     pathType: Prefix
     # tls:
     #   - hosts:
     #       - argocd.${domain-name}
