@@ -58,17 +58,3 @@ spec:
             name: nginx-service
             port:
               number: 80
-
-# ---
-# apiVersion: cert-manager.io/v1
-# kind: Certificate
-# metadata:
-#   name: app-certificate
-# spec:
-#   secretName: app-tls-secret
-#   issuerRef:
-#     name: letsencrypt-prod
-#     kind: ClusterIssuer
-#   commonName: app.cloudwitches.online
-#   dnsNames:
-#   - app.cloudwitches.online
