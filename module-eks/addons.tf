@@ -70,11 +70,3 @@ resource "helm_release" "argocd" {
 #   }
     depends_on = [ helm_release.nginx_ingress, helm_release.cert_manager]
 }
-
-
-
-
-# # output "nginx_ingress_load_balancer_hostname" {
-# #     value       = data.kubernetes_service.nginx_ingress_lb.status[0].load_balancer[0].ingress[0].hostname
-# #     description = "The DNS hostname of the NGINX ingress LoadBalancer service"
-# # }
