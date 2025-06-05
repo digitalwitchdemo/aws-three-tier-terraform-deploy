@@ -59,7 +59,7 @@ resource "helm_release" "argocd" {
     version          = "5.51.6"
     namespace        = "argocd"
     create_namespace = true
-#     values = [file("${path.module}/argocd-values.yaml")]
+    values = [file("${path.module}/argocd-values.yaml")]
 #     set {
 #         name  = "server.ingress.paths[0]"
 #         value = "/"
