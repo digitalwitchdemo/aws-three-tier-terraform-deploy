@@ -59,5 +59,5 @@ resource "helm_release" "argocd" {
     namespace        = "argocd"
     create_namespace = true
     values = [file("${path.module}/argocd-values.yaml")]
-    depends_on = [ helm_release.nginx_ingress, helm_release.cert_manager,kubernetes_manifest.cluster_issuer]
+    depends_on = [ helm_release.nginx_ingress, helm_release.cert_manager]
 }
