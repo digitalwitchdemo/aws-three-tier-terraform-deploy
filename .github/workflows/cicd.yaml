@@ -64,5 +64,14 @@ jobs:
       - name: Terraform Apply.
         run: terraform apply -auto-approve 
 
+      - name: 'authenticate to EKS Cluster'
+        run: aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
+      
+      - name: 'Deploying the ClusterIssuer to EKS'
+        run: kubectl apply -f ClusterIssuer.yaml
+
+      - name: 'Deploying argocd ingress rule to EKS'
+        run: kubectl apply -f .module-eks/argocd-values.yaml -n argocd
+
       # - name: Terraform Destroy
       #   run: terraform destroy -auto-approve 

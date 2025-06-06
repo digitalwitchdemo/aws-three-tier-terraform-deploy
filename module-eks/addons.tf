@@ -49,38 +49,6 @@ resource "helm_release" "cert_manager" {
     }
     depends_on = [ helm_release.nginx_ingress ]
 }
-resource "kubernetes_manifest" "cluster_issuer" {
-    provider = kubernetes.eks
-    manifest = {
-        apiVersion = "cert-manager.io/v1"
-        kind       = "ClusterIssuer"
-        metadata = {
-            name = "http-01-production"
-        }
-        spec = {
-            acme = {
-                server = "https://acme-v02.api.letsencrypt.org/directory"
-                email  = "${var.email}"
-                privateKeySecretRef = {
-                    name = "letsencrypt-prod-cluster-issuer"
-                }
-                solvers = [
-                    {
-                        http01 = {
-                            ingress = {
-                                ingressClassName = "external-nginx"
-                            }
-                        }
-                    }
-                ]
-            }
-        }
-    }
-
-    depends_on = [helm_release.cert_manager]
-}
-
-
 #==================================================
 
 resource "helm_release" "argocd" {
@@ -92,45 +60,4 @@ resource "helm_release" "argocd" {
     create_namespace = true
     values = [file("${path.module}/argocd-values.yaml")]
     depends_on = [ helm_release.nginx_ingress, helm_release.cert_manager,kubernetes_manifest.cluster_issuer]
-}
-
-resource "kubernetes_ingress_v1" "argocd_ingress" {
-    metadata {
-        name      = "argocd-ingress"
-        namespace = "argocd"
-        annotations = {
-            "kubernetes.io/ingress.class"                    = "external-nginx"
-            "cert-manager.io/cluster-issuer"                 = "http-01-production"
-            "nginx.ingress.kubernetes.io/rewrite-target"     = "/"
-            "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
-        }
-    }
-    spec {
-        ingress_class_name = "external-nginx"
-
-        tls {
-            hosts       = ["argocd.${var.domain-name}"]
-            secret_name = "argocd-cloudwitches-online"
-        }
-
-        rule {
-            host = "argocd.${var.domain-name}" 
-            http {
-                path {
-                    path     = "/"
-                    path_type = "Prefix"
-                    backend {
-                        service {
-                            name = "argocd-server"
-                            port {
-                                number = 80
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    depends_on = [helm_release.argocd]
 }
