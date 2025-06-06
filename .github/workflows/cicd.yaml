@@ -65,7 +65,7 @@ jobs:
         run: terraform apply -auto-approve 
 
       - name: 'authenticate to EKS Cluster'
-        run: aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
+        run: aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
       
       - name: 'Deploying the ClusterIssuer to EKS'
         run: kubectl apply -f ClusterIssuer.yaml
