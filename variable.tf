@@ -160,3 +160,9 @@ variable "repository_name" {
   default     = "eks-repository"
   
 }
+
+variable "email" {
+  description = "Email address for notifications and certificates"
+  type        = string
+  default     = "support@digitalwitchng.online"
+}

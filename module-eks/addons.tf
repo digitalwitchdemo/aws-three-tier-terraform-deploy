@@ -59,7 +59,7 @@ resource "kubernetes_manifest" "cluster_issuer" {
         spec = {
             acme = {
                 server = "https://acme-v02.api.letsencrypt.org/directory"
-                email  = "support@digitalwitchng.online"
+                email  = "${var.email}"
                 privateKeySecretRef = {
                     name = "letsencrypt-prod-cluster-issuer"
                 }
@@ -106,12 +106,12 @@ resource "kubernetes_ingress_v1" "argocd_ingress" {
         ingress_class_name = "external-nginx"
 
         tls {
-            hosts       = ["argocd.cloudwitches.online"]
+            hosts       = ["argocd.${var.domain-name}"]
             secret_name = "argocd-cloudwitches-online"
         }
 
         rule {
-            host = "argocd.cloudwitches.online"
+            host = "argocd.${var.domain-name}" 
             http {
                 path {
                     path     = "/"

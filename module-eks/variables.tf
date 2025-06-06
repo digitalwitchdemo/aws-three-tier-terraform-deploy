@@ -94,3 +94,4 @@ variable "repository_name" {
 }
 
 variable "domain-name" {}
+variable "email" {}
