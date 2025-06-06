@@ -7,6 +7,7 @@ provider "helm" {
 }
 
 provider "kubernetes" {
+  alias                  = "eks"
   host                   = aws_eks_cluster.eks.endpoint
   cluster_ca_certificate = base64decode(aws_eks_cluster.eks.certificate_authority[0].data)
   token                  = data.aws_eks_cluster_auth.eks.token
@@ -48,8 +49,8 @@ resource "helm_release" "cert_manager" {
     }
     depends_on = [ helm_release.nginx_ingress ]
 }
-
 resource "kubernetes_manifest" "cluster_issuer" {
+    provider = kubernetes.eks
     manifest = {
         apiVersion = "cert-manager.io/v1"
         kind       = "ClusterIssuer"
@@ -59,7 +60,7 @@ resource "kubernetes_manifest" "cluster_issuer" {
         spec = {
             acme = {
                 server = "https://acme-v02.api.letsencrypt.org/directory"
-                email  = "support@digitalwitchng.online"
+                email  = "${var.email}"
                 privateKeySecretRef = {
                     name = "letsencrypt-prod-cluster-issuer"
                 }
@@ -79,6 +80,8 @@ resource "kubernetes_manifest" "cluster_issuer" {
     depends_on = [helm_release.cert_manager]
 }
 
+
+#==================================================
 
 resource "helm_release" "argocd" {
     name             = "argocd"
