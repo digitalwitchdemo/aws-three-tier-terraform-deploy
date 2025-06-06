@@ -30,6 +30,7 @@ module "eks-deployment" {
     cluster_name = var.cluster_name
     repository_name = var.repository_name
     domain-name = var.domain-name
+    email = var.email
   
 }
 
