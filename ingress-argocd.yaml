@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd-ingress
+  annotations:
+    kubernetes.io/ingress.class: "external-nginx"
+    cert-manager.io/cluster-issuer: http-01-production
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: external-nginx
+  tls:
+  - hosts:
+    - argocd.cloudwitches.online
+    secretName: argocd-cloudwitches-online
+  rules:
+  - host: argocd.cloudwitches.online
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: argocd-server
+            port:
+              number: 80
