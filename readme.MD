@@ -30,4 +30,5 @@ terraform-eks-db/
 ```
 
 ## This is the architecture for the infrastruture deployment
-![Project Architecture](architecture.png)
+![Project Architecture](architecture.png)# aws-three-tier-Deploy
+# aws-three-tier-Deploy
