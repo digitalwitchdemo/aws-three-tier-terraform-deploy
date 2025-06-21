@@ -1,7 +1,6 @@
 # Creating a VPC and EKS cluster using Terraform
 module "vpc-deployment" {
     source = "./module-vpc"
-    
     environment = var.environment
     vpc_cidrblock = var.vpc_cidrblock
     countsub = var.countsub
@@ -34,7 +33,7 @@ module "eks-deployment" {
   
 }
 
-module "namecheap-deployment" {
+module "dns-deployment" {
     source = "./module-dns"
     environment = var.environment
     domain-name = var.domain-name

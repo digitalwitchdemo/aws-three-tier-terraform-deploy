@@ -15,3 +15,8 @@ domain-name = "cloudwitches.online"
 cluster_name = "eks-cluster"
 repository_name = "eks-repository"
 email = "support@digitalwitchng.online"
+domain_name = "cloudwitches.online"
+db_instance_class = "db.t3.micro"
+db_allocated_storage = 20
+
+
