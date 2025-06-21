@@ -61,9 +61,12 @@ jobs:
       - name: Terraform Plan
         run: terraform plan 
 
-      - name: Terraform Apply.
-        run: terraform apply -auto-approve 
+      # - name: Terraform Apply.
+      #   run: terraform apply -auto-approve 
 
+
+        ## Note this part depends on the mannaul Dns route 53 to namecheap or godaddy setup.
+        #===================================================================================
       # - name: 'install kubectl'
       #   run: |
       #     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -79,5 +82,5 @@ jobs:
       # - name: 'Deploying argocd ingress rule to EKS'
       #   run: kubectl apply -f ingress-argocd.yaml -n argocd
 
-      # - name: Terraform Destroy
-      #   run: terraform destroy -auto-approve 
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve 

@@ -5,7 +5,7 @@ This repository contains the infrastructure-as-code (IaC) setup using **Terrafor
 ---
 ## For DNS correction for both goodday or namecheap whichever one you are using.
 ## ===============================================================================
-### Note: at .github/workflows/cicd.yaml. comment line 67 to 80 before you deploy the infrastructure.
+### Note: at .github/workflows/cicd.yaml. comment line 70 to 83 before you deploy the infrastructure.
 
 ### step (1) first after deploying this infrastructure to aws everything will be created.
 ### step (2) AWS Route 53 hosted zone will be created. However, due to issue with bannd in namecheap and godaddy, that you must have 50 domains before you use their API. that is why i have updated this so you can do that part mannually. 
@@ -15,7 +15,7 @@ This repository contains the infrastructure-as-code (IaC) setup using **Terrafor
 ### check this video for godaddy.
 
 ### step (4) After updating the nameserver in the selected alterneting domain provider, you wait for 10 minutes, then 
-### step (5) uncomment the .github/workflow/cicd.yaml line [67-80] and push it back to run the pipeline again by this time. the domain have been populated and certmanager and nginx will be able to make use of it. 
+### step (5) uncomment the .github/workflow/cicd.yaml line [70-83] and push it back to run the pipeline again by this time. the domain have been populated and certmanager and nginx will be able to make use of it. 
 
 ### If you still have issue on this, let me know by sending a screenshot of all the steps.
 ## Good luck on your project, I love you all.
