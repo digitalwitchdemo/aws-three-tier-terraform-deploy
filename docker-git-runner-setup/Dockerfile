@@ -28,7 +28,10 @@ RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/sh
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs
 
-
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \ 
+    unzip awscliv2.zip && \
+    sudo ./aws/install
+    
 # Create non-root user for GitHub runner.
 RUN useradd -m -s /bin/bash runner && \
     usermod -aG docker runner && \
